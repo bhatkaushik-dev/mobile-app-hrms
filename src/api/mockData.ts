@@ -5,6 +5,7 @@
 import type {
   Appraisal,
   LeaveBalance,
+  LeaveEmployee,
   LeaveRequest,
   Payslip,
   PersonalDetails,
@@ -40,6 +41,35 @@ export const mockPayslips: Payslip[] = [
   { id: 'PS-2604', month: 'April 2026', grossPay: 142000, netPay: 118400, deductions: 23600, status: 'Paid' },
   { id: 'PS-2603', month: 'March 2026', grossPay: 142000, netPay: 117900, deductions: 24100, status: 'Paid' },
   { id: 'PS-2602', month: 'February 2026', grossPay: 138000, netPay: 115200, deductions: 22800, status: 'Paid' },
+];
+
+export const mockLeaveEmployee: LeaveEmployee = {
+  employeeCode: '1007807',
+  employeeName: 'Baljinder Singh Dhanoa',
+  designation: 'Senior IT Manager',
+  grade: 'H-4',
+  dateOfBirth: '25/07/1978',
+  age: 48,
+  joinDate: '17/05/2006',
+  officeEmail: 'Jane.Smith@Company.Com',
+  personalEmail: 'Jane.Smith@Example.Com',
+  mobileNo: '9988776655',
+  reportsTo: 'Moh Rizwan Ali Ansari',
+  division: 'Overheads',
+  branch: 'Oit00000',
+  department: 'Oit00000',
+  section: 'Not Applicable',
+  serviceYears: 20,
+  nationality: 'Omani',
+};
+
+/** People selectable as "Person Responsible in Absence". */
+export const mockColleagues: string[] = [
+  'Moh Rizwan Ali Ansari',
+  'Priya Mehta',
+  'Aarav Mehta',
+  'Sara Khan',
+  'Daniel Lee',
 ];
 
 export const mockLeaveBalances: LeaveBalance[] = [

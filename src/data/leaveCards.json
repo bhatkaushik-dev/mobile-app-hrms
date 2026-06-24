@@ -1,0 +1,95 @@
+[
+  {
+    "id": "annual",
+    "title": "Annual Leave",
+    "icon": "🗓️",
+    "iconColor": "#DC2626",
+    "iconBgColor": "#FEE2E2",
+    "info": [
+      { "label": "Entitlement", "value": "30 days" },
+      { "label": "Frequency", "value": "Yearly" },
+      { "label": "Balance", "value": "4 days" },
+      { "label": "Days taken", "value": "0 days" },
+      { "label": "Last Leave taken", "value": "25/07/2024" }
+    ]
+  },
+  {
+    "id": "emergency",
+    "title": "Emergency Leave",
+    "icon": "⚠️",
+    "iconColor": "#D97706",
+    "iconBgColor": "#FEF3C7",
+    "info": [
+      { "label": "Entitlement", "value": "6 days" },
+      { "label": "Frequency", "value": "Yearly" },
+      { "label": "Days taken", "value": "0 days" },
+      { "label": "Last Leave taken", "value": "-" }
+    ]
+  },
+  {
+    "id": "unpaid",
+    "title": "Unpaid Leave",
+    "icon": "💵",
+    "iconColor": "#16A34A",
+    "iconBgColor": "#DCFCE7",
+    "info": [
+      { "label": "Entitlement", "value": "365 days" },
+      { "label": "Frequency", "value": "Yearly" },
+      { "label": "Days taken", "value": "0 days" },
+      { "label": "Last Leave taken", "value": "-" }
+    ]
+  },
+  {
+    "id": "compensatory",
+    "title": "Compensatory Leave",
+    "icon": "📆",
+    "iconColor": "#16A34A",
+    "iconBgColor": "#DCFCE7",
+    "info": [
+      { "label": "Entitlement", "value": "10 days" },
+      { "label": "Frequency", "value": "Yearly" },
+      { "label": "Balance", "value": "0 days" },
+      { "label": "Days taken", "value": "0 days" },
+      { "label": "Last Leave taken", "value": "-" }
+    ]
+  },
+  {
+    "id": "mourning",
+    "title": "Mourning - Family Member",
+    "icon": "😔",
+    "iconColor": "#2563EB",
+    "iconBgColor": "#DBEAFE",
+    "info": [
+      { "label": "Entitlement", "value": "365 days" },
+      { "label": "Frequency", "value": "Yearly" },
+      { "label": "Days taken", "value": "0 days" },
+      { "label": "Last Leave taken", "value": "-" }
+    ]
+  },
+  {
+    "id": "marriage",
+    "title": "Marriage Leave",
+    "icon": "💍",
+    "iconColor": "#7C3AED",
+    "iconBgColor": "#EDE9FE",
+    "info": [
+      { "label": "Entitlement", "value": "3 days" },
+      { "label": "Frequency", "value": "End of Service" },
+      { "label": "Days taken", "value": "0 days" },
+      { "label": "Last Leave taken", "value": "-" }
+    ]
+  },
+  {
+    "id": "paternity",
+    "title": "Paternity Leave",
+    "icon": "🧍",
+    "iconColor": "#DC2626",
+    "iconBgColor": "#FEE2E2",
+    "info": [
+      { "label": "Entitlement", "value": "7 days" },
+      { "label": "Frequency", "value": "Yearly" },
+      { "label": "Days taken", "value": "0 days" },
+      { "label": "Last Leave taken", "value": "-" }
+    ]
+  }
+]

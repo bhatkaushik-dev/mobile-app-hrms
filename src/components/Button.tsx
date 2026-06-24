@@ -48,7 +48,9 @@ export function Button({
         <ActivityIndicator color={variant === 'primary' ? colors.white : colors.brand} />
       ) : (
         <View className="flex-row items-center">
-          <Text className={`text-base font-semibold ${labelByVariant[variant]}`}>
+          <Text
+            numberOfLines={1}
+            className={`text-center text-base font-semibold ${labelByVariant[variant]}`}>
             {label}
           </Text>
           {trailing ? <View className="ml-2">{trailing}</View> : null}

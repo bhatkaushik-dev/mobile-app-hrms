@@ -130,12 +130,212 @@ export interface GeneralInfo {
   qualifications: Qualification[];
 }
 
+/** "Contract" tab — employment terms plus probation & benefits. */
+export interface ContractInfo {
+  // Employment details
+  category: string;
+  lastPaidDate: string;
+  workingPattern: string;
+  otEligible: boolean;
+  currency: string;
+  salary: string;
+  contractType: string;
+  contractPeriod: string;
+  contractExpiryDate: string;
+  noticePeriodDays: string;
+  // Probation & benefits
+  probationApplicable: boolean;
+  probationPeriod: string;
+  probationEndDate: string;
+  leaveEligible: boolean;
+  passageApplicable: boolean;
+  passageFrequency: string;
+  sectorPassage: string;
+  ssnNo: string;
+  ssnDeduction: string;
+  gratuity: string;
+}
+
+/** One bank account block on the Payment tab. */
+export interface BankAccount {
+  payeeName: string;
+  bankName: string;
+  branchName: string;
+  accountNumber: string;
+}
+
+/** "Payment" tab — payment method plus primary/secondary accounts. */
+export interface PaymentInfo {
+  paymentMethod: string;
+  paymentType: string;
+  primaryAccount: BankAccount;
+  secondaryAccount?: BankAccount;
+}
+
+/** One dependant card on the Dependants tab. */
+export interface Dependant {
+  id: string;
+  name: string;
+  relation: string; // Wife, Son, Daughter, ...
+  dateOfBirth: string;
+  age: string;
+  gender: string;
+  bloodGroup: string;
+  visa: boolean;
+  tickets: boolean;
+  passage: string;
+  passageFrequency: string;
+  nationality: string;
+  occupation: string;
+}
+
+/** One document row (employee's own or a dependant's). */
+export interface EmployeeDocument {
+  id: string;
+  type: string; // PASSPORT, RESIDENT CARD, VISA, ...
+  holderName: string;
+  relation?: string; // present only for dependent documents
+  issuePlace: string;
+  issueDate: string;
+  expiryDate: string;
+}
+
+/** "Documents" tab — split into the employee's own docs and dependants'. */
+export interface DocumentsInfo {
+  myDocuments: EmployeeDocument[];
+  dependentDocuments: EmployeeDocument[];
+}
+
+/** One earnings/deductions line on the Salary Details tab. */
+export interface SalaryLine {
+  id: string;
+  name: string;
+  basis: string;
+  percentage: string;
+  effStartDate: string;
+  effEndDate: string;
+  earnings: number;
+  deductions: number;
+}
+
+/** "Salary Details" tab — Summary + Details share the same line shape. */
+export interface SalaryDetails {
+  summary: SalaryLine[];
+  details: SalaryLine[];
+  netPay: number;
+}
+
+/** A single old→new earning change inside a promotion/increment record. */
+export interface EarningChange {
+  description: string;
+  oldAmount: number;
+  newAmount: number;
+  increment: number;
+}
+
+/** One transfer record on the Performance → Transfers timeline. */
+export interface TransferRecord {
+  id: string;
+  date: string;
+  changes: { attribute: string; oldValue: string; newValue: string }[];
+  txnNo: string;
+  txnDate: string;
+  notes: string;
+}
+
+/** One promotion record on the Performance → Promotions timeline. */
+export interface PromotionRecord {
+  id: string;
+  date: string;
+  fromRole: string;
+  fromGrade: string;
+  toRole: string;
+  toGrade: string;
+  lines: EarningChange[];
+  totalIncrease: number;
+  txnNo: string;
+  txnDate: string;
+  notes: string;
+}
+
+/** One increment record on the Performance → Increments timeline. */
+export interface IncrementRecord {
+  id: string;
+  date: string;
+  lines: EarningChange[];
+  totalIncrease: number;
+  txnNo: string;
+  txnDate: string;
+  notes: string;
+}
+
+/** One disciplinary action on the Performance → Disciplinary Actions timeline. */
+export interface DisciplinaryAction {
+  id: string;
+  date: string;
+  type: string;
+  description: string;
+  txnNo: string;
+}
+
+/** "Performance" tab — four independent timelines. */
+export interface PerformanceInfo {
+  transfers: TransferRecord[];
+  promotions: PromotionRecord[];
+  increments: IncrementRecord[];
+  disciplinaryActions: DisciplinaryAction[];
+}
+
+export type LeaveBarTone = 'normal' | 'high' | 'low';
+
+/** One year's bar on the Leaves Taken chart. */
+export interface LeaveTakenYear {
+  year: string;
+  days: number;
+  tone: LeaveBarTone;
+}
+
+/** One active loan row. */
+export interface ActiveLoan {
+  id: string;
+  type: string;
+  amount: number;
+  outstanding: number;
+  emi: number;
+  startDate: string;
+}
+
+/** One stage on the Career Plan progression. */
+export interface CareerStage {
+  id: string;
+  title: string;
+  description: string;
+  nextLevelIn: string;
+  responsibilities: string[];
+  current: boolean;
+}
+
+/** "Career Plan" tab — current role plus the full progression path. */
+export interface CareerPlan {
+  currentRole: string;
+  stages: CareerStage[];
+}
+
 /** Full profile bundle loaded by the Personal Details screen. */
 export interface EmployeeProfile {
   header: ProfileHeader;
   organization: OrganizationInfo;
   overview: ProfileOverview;
   generalInfo: GeneralInfo;
+  contract: ContractInfo;
+  payment: PaymentInfo;
+  dependants: Dependant[];
+  documents: DocumentsInfo;
+  salary: SalaryDetails;
+  performance: PerformanceInfo;
+  leavesTaken: LeaveTakenYear[];
+  activeLoans: ActiveLoan[];
+  careerPlan: CareerPlan;
 }
 
 export interface Payslip {

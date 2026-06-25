@@ -3,6 +3,8 @@
  * Swapping to a real backend means changing the bodies here only.
  */
 import type {
+  ApprovalTab,
+  ApprovalTable,
   Appraisal,
   AuthSession,
   EmployeeProfile,
@@ -18,8 +20,11 @@ import type {
 } from '../types';
 import { mockReject, mockRequest } from './client';
 import leaveCards from '../data/leaveCards.json';
+import approvalTabs from '../data/approvalTabs.json';
 import {
   mockAppraisals,
+  mockApprovalTables,
+  genericApprovalColumns,
   mockEmployeeProfile,
   mockColleagues,
   mockLeaveBalances,
@@ -89,6 +94,40 @@ export const leaveService = {
       appliedOn: payload.fromDate,
     };
     return mockRequest(created);
+  },
+};
+
+export const approvalService = {
+  /** All approval workflow tabs (with their badge counts), from approvalTabs.json. */
+  getTabs(): Promise<ApprovalTab[]> {
+    return mockRequest(approvalTabs as ApprovalTab[]);
+  },
+  /**
+   * The grid (columns + rows) for a given tab. Tabs with a bespoke grid return
+   * it directly; every other tab synthesizes `count` generic rows so the table
+   * is populated until real endpoints exist.
+   */
+  getApprovals(tabKey: string): Promise<ApprovalTable> {
+    const bespoke = mockApprovalTables[tabKey];
+    if (bespoke) {
+      return mockRequest(bespoke);
+    }
+
+    const tab = (approvalTabs as ApprovalTab[]).find(t => t.key === tabKey);
+    const count = tab?.count ?? 0;
+    const rows = Array.from({ length: count }, (_, i) => ({
+      id: `${tabKey}-${i + 1}`,
+      cells: {
+        slNo: i + 1,
+        transactionNo: `26/${String(1000 + i + 1).padStart(7, '0')}`,
+        createdDateTime: `0${(i % 9) + 1}/03/2026 1${i % 10}:24:0${i % 9}`,
+        description: `${tab?.label ?? 'Process'} request #${i + 1}`,
+        createdUserName: 'Administrator',
+        amount: (i % 3) * 1250.5,
+      },
+      additionalDetails: [],
+    }));
+    return mockRequest({ columns: genericApprovalColumns, rows });
   },
 };
 

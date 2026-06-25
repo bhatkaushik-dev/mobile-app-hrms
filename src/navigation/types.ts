@@ -15,4 +15,5 @@ export type AppStackParamList = {
   LeaveApply: { leaveTitle?: string } | undefined;
   SmartObjectives: undefined;
   MyAppraisals: undefined;
+  Approvals: undefined;
 };

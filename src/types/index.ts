@@ -445,3 +445,48 @@ export interface Appraisal {
   submittedOn?: string;
   summary: string;
 }
+
+/* ── Approvals (mirrors the web Approvals workspace) ─────────────────────── */
+
+/**
+ * One approval workflow tab. `count` mirrors the badge the web shows next to
+ * each tab name. The full tab list is data-driven from `approvalTabs.json`.
+ */
+export interface ApprovalTab {
+  key: string;
+  label: string;
+  count: number;
+}
+
+/** A single label/value detail line shown when an approval row is expanded. */
+export interface ApprovalDetail {
+  label: string;
+  value: string;
+}
+
+/**
+ * One column in an approvals grid. Columns are defined per tab (the web shows a
+ * different column set for each workflow), so the table renders generically.
+ */
+export interface ApprovalColumn {
+  key: string;
+  label: string;
+  /** Fixed cell width in px (the grid scrolls horizontally). */
+  width: number;
+  /** `amount` right-aligns + formats; `avatar` shows initials + name. */
+  type?: 'text' | 'amount' | 'avatar';
+}
+
+/** One row in an approvals grid. `cells` is keyed by the column `key`. */
+export interface ApprovalRecord {
+  id: string;
+  cells: Record<string, string | number>;
+  /** Extra detail lines revealed when the row is expanded. */
+  additionalDetails: ApprovalDetail[];
+}
+
+/** A tab's full grid: its column definitions plus the rows to show. */
+export interface ApprovalTable {
+  columns: ApprovalColumn[];
+  rows: ApprovalRecord[];
+}

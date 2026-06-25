@@ -3,6 +3,8 @@
  * in one file makes it obvious what to delete once services hit real endpoints.
  */
 import type {
+  ApprovalColumn,
+  ApprovalTable,
   Appraisal,
   EmployeeProfile,
   LeaveBalance,
@@ -911,4 +913,104 @@ export const mockAppraisals: Appraisal[] = [
     status: 'Draft',
     summary: 'Self-assessment pending. Review window opens 01 Jul 2026.',
   },
+];
+
+/**
+ * Per-tab approval grids. Each tab defines its own columns (the web shows a
+ * different column set for each workflow). Tabs not listed here synthesize a
+ * generic grid in the service from their badge count.
+ */
+export const mockApprovalTables: Record<string, ApprovalTable> = {
+  'non-standard-earnings-process': {
+    columns: [
+      { key: 'slNo', label: 'Sl No', width: 64 },
+      { key: 'transactionNo', label: 'Transaction No', width: 130 },
+      { key: 'createdDateTime', label: 'Created Date Time', width: 170 },
+      { key: 'processMonth', label: 'Process Month', width: 130 },
+      { key: 'processTemplate', label: 'Process Template Description', width: 220 },
+      { key: 'processDescription', label: 'Process Description', width: 180 },
+      { key: 'earningsNote', label: 'Earnings Note', width: 160 },
+      { key: 'processNumber', label: 'Process Number', width: 140 },
+      { key: 'processCount', label: 'Process Count', width: 130 },
+      { key: 'processAmount', label: 'Process Amount', width: 140, type: 'amount' },
+    ],
+    rows: [
+      {
+        id: 'NSE-26-0000002',
+        cells: {
+          slNo: 1,
+          transactionNo: '26/0000002',
+          createdDateTime: '05/03/2026 01:56:33',
+          processMonth: 'August 2024',
+          processTemplate: 'FINAL SETTLEMENT',
+          processDescription: '',
+          earningsNote: 'Non standard earnings',
+          processNumber: '8565',
+          processCount: 2,
+          processAmount: 0,
+        },
+        additionalDetails: [],
+      },
+      {
+        id: 'NSE-26-0000001',
+        cells: {
+          slNo: 2,
+          transactionNo: '26/0000001',
+          createdDateTime: '04/03/2026 04:47:11',
+          processMonth: 'August 2024',
+          processTemplate: 'FINAL SETTLEMENT',
+          processDescription: '',
+          earningsNote: 'Non standard earnings',
+          processNumber: '8565',
+          processCount: 0,
+          processAmount: 0.0,
+        },
+        additionalDetails: [],
+      },
+    ],
+  },
+  'employee-promotion': {
+    columns: [
+      { key: 'slNo', label: 'Sl No', width: 64 },
+      { key: 'transactionNo', label: 'Transaction No', width: 130 },
+      { key: 'promotionDate', label: 'Promotion Date', width: 140 },
+      { key: 'employeeCode', label: 'Employee Code', width: 130 },
+      { key: 'employeeName', label: 'Employee Name', width: 190, type: 'avatar' },
+      { key: 'currentSalary', label: 'Current Salary', width: 130, type: 'amount' },
+      { key: 'newSalary', label: 'New Salary', width: 120, type: 'amount' },
+      { key: 'salaryDiff', label: 'Difference in Salary', width: 160, type: 'amount' },
+      { key: 'promotionNotes', label: 'Promotion Notes', width: 160 },
+      { key: 'createdUserName', label: 'Created User Name', width: 170 },
+      { key: 'approvedBy', label: 'Approved By', width: 150 },
+    ],
+    rows: [
+      {
+        id: 'EP-26-0000013',
+        cells: {
+          slNo: 1,
+          transactionNo: '26/0000013',
+          promotionDate: '03/03/2026',
+          employeeCode: '1076952',
+          employeeName: 'ABDALLAH AL HARTHY',
+          currentSalary: 0,
+          newSalary: 0,
+          salaryDiff: 0,
+          promotionNotes: 'gfdsaq',
+          createdUserName: 'Administrator',
+          approvedBy: '',
+        },
+        additionalDetails: [],
+      },
+    ],
+  },
+};
+
+/** Generic column set for tabs without a bespoke grid defined above. */
+export const genericApprovalColumns: ApprovalColumn[] = [
+  { key: 'slNo', label: 'Sl No', width: 64 },
+  { key: 'transactionNo', label: 'Transaction No', width: 130 },
+  { key: 'createdDateTime', label: 'Created Date Time', width: 170 },
+  { key: 'description', label: 'Description', width: 220 },
+  { key: 'createdUserName', label: 'Created User Name', width: 170 },
+  { key: 'amount', label: 'Amount', width: 130, type: 'amount' },
 ];

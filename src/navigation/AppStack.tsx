@@ -8,6 +8,7 @@ import { LeaveRequestScreen } from '../screens/leave/LeaveRequestScreen';
 import { LeaveApplyScreen } from '../screens/leave/LeaveApplyScreen';
 import { SmartObjectivesScreen } from '../screens/appraisals/SmartObjectivesScreen';
 import { MyAppraisalsScreen } from '../screens/appraisals/MyAppraisalsScreen';
+import { ApprovalsScreen } from '../screens/approvals/ApprovalsScreen';
 import type { AppStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
@@ -56,6 +57,11 @@ export function AppStack() {
         name="MyAppraisals"
         component={MyAppraisalsScreen}
         options={{ title: 'My Appraisals' }}
+      />
+      <Stack.Screen
+        name="Approvals"
+        component={ApprovalsScreen}
+        options={{ title: 'Approvals' }}
       />
     </Stack.Navigator>
   );

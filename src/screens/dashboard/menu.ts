@@ -75,7 +75,7 @@ export const menuSections: MenuSection[] = [
 /** Other portal modules (mirrors the web sidebar). Built incrementally. */
 export const upcomingModules: MenuItem[] = [
   { key: 'calendar', label: 'Calendar', description: '', icon: '📅', soon: true },
-  { key: 'approvals', label: 'Approvals', description: '', icon: '✅', soon: true },
+  { key: 'approvals', label: 'Approvals', description: '', icon: '✅', route: 'Approvals' },
   { key: 'attendance', label: 'Attendance', description: '', icon: '🕒', soon: true },
   { key: 'claims', label: 'Claims', description: '', icon: '🧾', soon: true },
   { key: 'loans', label: 'Loans & Advances', description: '', icon: '🏦', soon: true },

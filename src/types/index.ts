@@ -32,6 +32,112 @@ export interface PersonalDetails {
   emergencyContactPhone: string;
 }
 
+/* ── Employee profile (mirrors the web "My Profile" panel) ───────────────── */
+
+/** Left-panel summary card shown above the profile tabs. */
+export interface ProfileHeader {
+  fullName: string;
+  designation: string;
+  phone: string;
+  email: string;
+  location: string;
+}
+
+/** "Organization" tab — structure + employee details. */
+export interface OrganizationInfo {
+  // Organization structure
+  division: string;
+  branch: string;
+  department: string;
+  section: string;
+  // Employee details
+  jobType: string;
+  designation: string;
+  grade: string;
+  location: string;
+  joinedDate: string;
+  servicePeriod: string;
+  expatriate: boolean;
+  reportsTo: string;
+  role: string;
+}
+
+/** A single reference contact (the web shows up to three). */
+export interface Reference {
+  id: string;
+  name: string;
+  designation: string;
+  phoneNo: string;
+  email: string;
+  organisation: string;
+  address: string;
+}
+
+export type AddressKind =
+  | 'Permanent'
+  | 'Local'
+  | 'Temporary'
+  | 'Emergency 1'
+  | 'Emergency 2';
+
+/** One address block. `kind` drives the card's badge label. */
+export interface AddressInfo {
+  kind: AddressKind;
+  contactName: string;
+  city: string;
+  country: string;
+  address: string;
+  region: string;
+  addressType: string;
+  addressNature: string;
+}
+
+/** "Overview" tab — references + address blocks. */
+export interface ProfileOverview {
+  references: Reference[];
+  addresses: AddressInfo[];
+}
+
+/** One row of the work-experience timeline. */
+export interface WorkExperience {
+  id: string;
+  fromDate: string;
+  toDate: string;
+  designation: string;
+  company: string; // company with location, e.g. "ABC Pvt Ltd, Mumbai"
+  experience: string; // e.g. "5 Years 1 Days"
+  hasAttachment: boolean;
+}
+
+/** One row of the qualification timeline. */
+export interface Qualification {
+  id: string;
+  year: string;
+  degree: string;
+  specialization: string;
+  university: string;
+  location: string;
+  highestDegree: boolean;
+  hasAttachment: boolean;
+}
+
+/**
+ * "General Info" tab. Reference/address sub-tabs reuse the `overview` data;
+ * this only carries the two timelines unique to General Info.
+ */
+export interface GeneralInfo {
+  workExperience: WorkExperience[];
+  qualifications: Qualification[];
+}
+
+/** Full profile bundle loaded by the Personal Details screen. */
+export interface EmployeeProfile {
+  header: ProfileHeader;
+  organization: OrganizationInfo;
+  overview: ProfileOverview;
+  generalInfo: GeneralInfo;
+}
+
 export interface Payslip {
   id: string;
   month: string; // e.g. "May 2026"

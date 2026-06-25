@@ -5,6 +5,7 @@
 import type {
   Appraisal,
   AuthSession,
+  EmployeeProfile,
   LeaveBalance,
   LeaveRequest,
   NewLeaveRequest,
@@ -15,6 +16,7 @@ import type {
 import { mockReject, mockRequest } from './client';
 import {
   mockAppraisals,
+  mockEmployeeProfile,
   mockLeaveBalances,
   mockLeaveRequests,
   mockObjectives,
@@ -36,6 +38,9 @@ export const authService = {
 export const profileService = {
   getPersonalDetails(): Promise<PersonalDetails> {
     return mockRequest(mockPersonalDetails);
+  },
+  getEmployeeProfile(): Promise<EmployeeProfile> {
+    return mockRequest(mockEmployeeProfile);
   },
   getPayslips(): Promise<Payslip[]> {
     return mockRequest(mockPayslips);

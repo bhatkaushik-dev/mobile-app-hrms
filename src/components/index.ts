@@ -7,5 +7,7 @@ export { InfoRow } from './InfoRow';
 export { ProgressBar } from './ProgressBar';
 export { ScreenContainer } from './ScreenContainer';
 export { SectionHeader } from './SectionHeader';
+export { SegmentedTabs } from './SegmentedTabs';
+export type { SegmentedTabItem } from './SegmentedTabs';
 export { EmptyView, LoadingView } from './StateViews';
 export { TextField } from './TextField';

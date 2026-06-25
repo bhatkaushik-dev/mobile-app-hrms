@@ -4,6 +4,7 @@
  */
 import type {
   Appraisal,
+  EmployeeProfile,
   LeaveBalance,
   LeaveRequest,
   Payslip,
@@ -33,6 +34,163 @@ export const mockPersonalDetails: PersonalDetails = {
   address: '42, Lake View Residency, Bengaluru, KA 560037',
   emergencyContactName: 'Priya Mehta',
   emergencyContactPhone: '+91 98765 11122',
+};
+
+/**
+ * Employee profile — transcribed from the web "My Profile" panel so the mobile
+ * Organization/Overview tabs show the same data. Replace with a real endpoint.
+ */
+export const mockEmployeeProfile: EmployeeProfile = {
+  header: {
+    fullName: 'Baljinder Singh Dhanoa',
+    designation: 'Senior IT Manager',
+    phone: '9988776655',
+    email: 'Jane.Smith@Company.Com',
+    location: 'Sultanate of Oman',
+  },
+  organization: {
+    division: 'Overheads',
+    branch: 'OIT00000',
+    department: 'OIT00000',
+    section: 'Not Applicable',
+    jobType: 'NA',
+    designation: 'Senior IT Manager',
+    grade: 'H04',
+    location: 'Sultanate of Oman',
+    joinedDate: '17/05/2006',
+    servicePeriod: '20 Years, 1 Months & 6 Days',
+    expatriate: true,
+    reportsTo: 'Moh Rizwan Ali Ansari',
+    role: 'Staff',
+  },
+  overview: {
+    references: [
+      {
+        id: 'REF-1',
+        name: 'Test',
+        designation: '-',
+        phoneNo: '12121212',
+        email: 'Pna@gmail.com',
+        organisation: '-',
+        address: 'Blr',
+      },
+      {
+        id: 'REF-2',
+        name: 'As Applicable',
+        designation: 'N/A',
+        phoneNo: '123456789',
+        email: 'test@mail.com',
+        organisation: 'Finance',
+        address: 'Wadi Kabir',
+      },
+      {
+        id: 'REF-3',
+        name: 'Test',
+        designation: '-',
+        phoneNo: '12121212',
+        email: 'Pna@gmail.com',
+        organisation: '-',
+        address: 'Blr',
+      },
+    ],
+    addresses: [
+      {
+        kind: 'Permanent',
+        contactName: 'Robert Smith',
+        city: 'Muttrah',
+        country: '-',
+        address: '456 Park Avenue',
+        region: 'Muscat',
+        addressType: 'Permanent',
+        addressNature: '-',
+      },
+      {
+        kind: 'Local',
+        contactName: '-',
+        city: '-',
+        country: '-',
+        address: 'Flat No 74, Air Borne Bldg, Ghala',
+        region: '-',
+        addressType: 'Local',
+        addressNature: 'GEN',
+      },
+      {
+        kind: 'Temporary',
+        contactName: '-',
+        city: '-',
+        country: '-',
+        address: 'Flat No 76 Temp, Air Borne Bldg, Ghala2',
+        region: '-',
+        addressType: 'Temporary',
+        addressNature: 'ICE',
+      },
+      {
+        kind: 'Emergency 1',
+        contactName: 'Robert Smith',
+        city: '-',
+        country: '-',
+        address: 'Flat No 84 Temp, ICE, Ghala2',
+        region: '-',
+        addressType: 'Emergency',
+        addressNature: 'ICE',
+      },
+      {
+        kind: 'Emergency 2',
+        contactName: '-',
+        city: '-',
+        country: '-',
+        address: 'Flat No 85, ICE, Ghala2',
+        region: '-',
+        addressType: 'Emergency',
+        addressNature: 'ICE',
+      },
+    ],
+  },
+  generalInfo: {
+    workExperience: [
+      {
+        id: 'WX-1',
+        fromDate: '21/04/2020',
+        toDate: '21/04/2025',
+        designation: 'Manager',
+        company: 'ABC Pvt Ltd, Mumbai',
+        experience: '5 Years 1 Days',
+        hasAttachment: true,
+      },
+    ],
+    qualifications: [
+      {
+        id: 'QL-1',
+        year: '2018',
+        degree: 'Bachelor of Engg',
+        specialization: 'Mechanical',
+        university: 'Reva University',
+        location: 'Bangalore',
+        highestDegree: false,
+        hasAttachment: true,
+      },
+      {
+        id: 'QL-2',
+        year: '2006',
+        degree: 'Bachelor of Engg',
+        specialization: 'Chemical',
+        university: 'Mumbai University',
+        location: 'Mumbai',
+        highestDegree: false,
+        hasAttachment: true,
+      },
+      {
+        id: 'QL-3',
+        year: '2006',
+        degree: 'Bachelor of Engg',
+        specialization: 'Chemical',
+        university: 'Mumbai University',
+        location: 'Mumbai',
+        highestDegree: false,
+        hasAttachment: true,
+      },
+    ],
+  },
 };
 
 export const mockPayslips: Payslip[] = [

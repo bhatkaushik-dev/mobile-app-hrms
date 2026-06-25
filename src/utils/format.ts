@@ -13,3 +13,8 @@ export function formatAmount(amount: number): string {
     maximumFractionDigits: 3,
   });
 }
+
+/** Same as formatAmount but prefixed with the OMR currency code, e.g. "OMR 1,192.500". */
+export function formatOMR(amount: number): string {
+  return `OMR ${formatAmount(amount)}`;
+}

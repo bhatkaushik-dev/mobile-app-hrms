@@ -5,6 +5,7 @@ import { DashboardScreen } from '../screens/dashboard/DashboardScreen';
 import { PersonalDetailsScreen } from '../screens/profile/PersonalDetailsScreen';
 import { PayslipScreen } from '../screens/profile/PayslipScreen';
 import { LeaveRequestScreen } from '../screens/leave/LeaveRequestScreen';
+import { LeaveApplyScreen } from '../screens/leave/LeaveApplyScreen';
 import { SmartObjectivesScreen } from '../screens/appraisals/SmartObjectivesScreen';
 import { MyAppraisalsScreen } from '../screens/appraisals/MyAppraisalsScreen';
 import type { AppStackParamList } from './types';
@@ -40,6 +41,11 @@ export function AppStack() {
         name="LeaveRequest"
         component={LeaveRequestScreen}
         options={{ title: 'Leave Request' }}
+      />
+      <Stack.Screen
+        name="LeaveApply"
+        component={LeaveApplyScreen}
+        options={{ title: 'Apply Leave' }}
       />
       <Stack.Screen
         name="SmartObjectives"

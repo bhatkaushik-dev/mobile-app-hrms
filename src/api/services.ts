@@ -6,7 +6,10 @@ import type {
   Appraisal,
   AuthSession,
   EmployeeProfile,
+  LeaveApplication,
   LeaveBalance,
+  LeaveCard,
+  LeaveEmployee,
   LeaveRequest,
   NewLeaveRequest,
   Payslip,
@@ -14,10 +17,13 @@ import type {
   SmartObjective,
 } from '../types';
 import { mockReject, mockRequest } from './client';
+import leaveCards from '../data/leaveCards.json';
 import {
   mockAppraisals,
   mockEmployeeProfile,
+  mockColleagues,
   mockLeaveBalances,
+  mockLeaveEmployee,
   mockLeaveRequests,
   mockObjectives,
   mockPayslips,
@@ -48,6 +54,22 @@ export const profileService = {
 };
 
 export const leaveService = {
+  /** Leave type cards (entitlement, balance, etc.), sourced from leaveCards.json. */
+  getLeaveCards(): Promise<LeaveCard[]> {
+    return mockRequest(leaveCards as LeaveCard[]);
+  },
+  /** Employee profile shown in the Leave Apply/Edit header. */
+  getEmployee(): Promise<LeaveEmployee> {
+    return mockRequest(mockLeaveEmployee);
+  },
+  /** People selectable as the responsible person while on leave. */
+  getColleagues(): Promise<string[]> {
+    return mockRequest(mockColleagues);
+  },
+  /** Submit a new leave application from the Apply/Edit form. */
+  submitApplication(payload: LeaveApplication): Promise<{ id: string }> {
+    return mockRequest({ id: `LR-${3100 + payload.days}` });
+  },
   getBalances(): Promise<LeaveBalance[]> {
     return mockRequest(mockLeaveBalances);
   },

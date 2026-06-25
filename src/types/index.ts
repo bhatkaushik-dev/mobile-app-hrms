@@ -174,6 +174,56 @@ export interface NewLeaveRequest {
   reason: string;
 }
 
+/** A single label/value line on a leave info card (e.g. "Entitlement" → "30 days"). */
+export interface LeaveCardInfo {
+  label: string;
+  value: string;
+}
+
+/** Data-driven leave type card shown on the Leave Request screen. */
+export interface LeaveCard {
+  id: string;
+  title: string;
+  icon: string;
+  iconColor: string;
+  iconBgColor: string;
+  info: LeaveCardInfo[];
+}
+
+/** Employee profile shown in the header of the Leave Apply/Edit screen. */
+export interface LeaveEmployee {
+  employeeCode: string;
+  employeeName: string;
+  designation: string;
+  grade: string;
+  dateOfBirth: string;
+  age: number;
+  joinDate: string;
+  officeEmail: string;
+  personalEmail: string;
+  mobileNo: string;
+  reportsTo: string;
+  division: string;
+  branch: string;
+  department: string;
+  section: string;
+  serviceYears: number;
+  nationality: string;
+}
+
+export type LeaveMode = 'Full Day' | 'Half Day';
+
+/** Payload submitted from the Leave Apply/Edit form. */
+export interface LeaveApplication {
+  leaveType: string;
+  fromDate: string;
+  toDate: string;
+  days: number;
+  mode: LeaveMode;
+  personResponsible: string;
+  reason: string;
+}
+
 export type ObjectiveStatus = 'Not Started' | 'In Progress' | 'Completed';
 
 export interface SmartObjective {

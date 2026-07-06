@@ -11,6 +11,7 @@ import type {
   LeaveEmployee,
   LeaveRequest,
   Payslip,
+  PayslipLine,
   PersonalDetails,
   SmartObjective,
   User,
@@ -607,11 +608,175 @@ export const mockEmployeeProfile: EmployeeProfile = {
   },
 };
 
+/**
+ * Payslips — transcribed from the web "Pay slip" panel (June & March 2024 are
+ * the two detailed screenshots; the remaining months reuse the standard pay
+ * structure). All amounts are OMR. Replace with a real endpoint.
+ */
+
+/** Standard monthly earnings — Basic + the three fixed allowances (2,150.000). */
+const standardEarnings: PayslipLine[] = [
+  { description: 'Basic', earnRate: 1300, amount: 1300 },
+  { description: 'House Rental Allowance', earnRate: 600, amount: 600 },
+  { description: 'Electricity Allowance', earnRate: 75, amount: 75 },
+  { description: 'Transport Allowance', earnRate: 175, amount: 175 },
+];
+
+/** Build a full-attendance payslip from the standard structure. */
+function standardPayslip(opts: {
+  id: string;
+  month: string;
+  year: number;
+  paidDays: number;
+  startDate: string;
+  endDate: string;
+  processedDate: string;
+}): Payslip {
+  return {
+    ...opts,
+    salaryMonth: `${opts.month}, ${opts.year}`,
+    processedNo: opts.id,
+    earnings: standardEarnings,
+    deductions: [],
+    totalEarnings: 2150,
+    totalDeductions: 0,
+    netPay: 2150,
+    netPayWords: 'Rial Omani Two Thousand One Hundred Fifty Only',
+    status: 'Paid',
+  };
+}
+
 export const mockPayslips: Payslip[] = [
-  { id: 'PS-2605', month: 'May 2026', grossPay: 142000, netPay: 118400, deductions: 23600, status: 'Paid' },
-  { id: 'PS-2604', month: 'April 2026', grossPay: 142000, netPay: 118400, deductions: 23600, status: 'Paid' },
-  { id: 'PS-2603', month: 'March 2026', grossPay: 142000, netPay: 117900, deductions: 24100, status: 'Paid' },
-  { id: 'PS-2602', month: 'February 2026', grossPay: 138000, netPay: 115200, deductions: 22800, status: 'Paid' },
+  standardPayslip({
+    id: '8540',
+    month: 'July',
+    year: 2024,
+    paidDays: 31,
+    startDate: '01-Jul-2024',
+    endDate: '31-Jul-2024',
+    processedDate: '27-Jul-2024',
+  }),
+  // June 2024 — pro-rated for annual leave (09/06–30/06), so each line splits
+  // into a leave portion and a worked portion.
+  {
+    id: '8459',
+    month: 'June',
+    year: 2024,
+    salaryMonth: 'June, 2024',
+    startDate: '01-Jun-2024',
+    endDate: '30-Jun-2024',
+    processedDate: '27-Jun-2024',
+    processedNo: '8459',
+    paidDays: 30,
+    earnings: [
+      { description: 'Basic (Annual Leave: 09/06/2024-30/06/2024)', earnRate: 1300, amount: 780 },
+      { description: 'Basic', earnRate: 1300, amount: 520 },
+      {
+        description: 'House Rental Allowance (Annual Leave: 09/06/2024-30/06/2024)',
+        earnRate: 600,
+        amount: 360,
+      },
+      { description: 'House Rental Allowance', earnRate: 600, amount: 240 },
+      {
+        description: 'Electricity Allowance (Annual Leave: 09/06/2024-30/06/2024)',
+        earnRate: 75,
+        amount: 45,
+      },
+      { description: 'Electricity Allowance', earnRate: 75, amount: 30 },
+      {
+        description: 'Transport Allowance (Annual Leave: 09/06/2024-30/06/2024)',
+        earnRate: 175,
+        amount: 105,
+      },
+      { description: 'Transport Allowance', earnRate: 175, amount: 70 },
+    ],
+    deductions: [],
+    totalEarnings: 2150,
+    totalDeductions: 0,
+    netPay: 2150,
+    netPayWords: 'Rial Omani Two Thousand One Hundred Fifty Only',
+    status: 'Paid',
+  },
+  standardPayslip({
+    id: '8390',
+    month: 'May',
+    year: 2024,
+    paidDays: 31,
+    startDate: '01-May-2024',
+    endDate: '31-May-2024',
+    processedDate: '28-May-2024',
+  }),
+  standardPayslip({
+    id: '8305',
+    month: 'April',
+    year: 2024,
+    paidDays: 30,
+    startDate: '01-Apr-2024',
+    endDate: '30-Apr-2024',
+    processedDate: '27-Apr-2024',
+  }),
+  // March 2024 — standard pay plus a one-off School Fees reimbursement.
+  {
+    id: '8218',
+    month: 'March',
+    year: 2024,
+    salaryMonth: 'March, 2024',
+    startDate: '01-Mar-2024',
+    endDate: '31-Mar-2024',
+    processedDate: '28-Mar-2024',
+    processedNo: '8218',
+    paidDays: 31,
+    earnings: [
+      { description: 'Basic', earnRate: 1300, amount: 1300 },
+      { description: 'House Rental Allowance', earnRate: 600, amount: 600 },
+      { description: 'Electricity Allowance', earnRate: 75, amount: 75 },
+      { description: 'Transport Allowance', earnRate: 175, amount: 175 },
+      { description: 'School Fees (School Fees April to June-24)', earnRate: 0, amount: 281.4 },
+    ],
+    deductions: [],
+    totalEarnings: 2431.4,
+    totalDeductions: 0,
+    netPay: 2431.4,
+    netPayWords:
+      'Rial Omani Two Thousand Four Hundred Thirty-One And Baiza Four Hundred Only',
+    status: 'Paid',
+  },
+  standardPayslip({
+    id: '8130',
+    month: 'February',
+    year: 2024,
+    paidDays: 29,
+    startDate: '01-Feb-2024',
+    endDate: '29-Feb-2024',
+    processedDate: '27-Feb-2024',
+  }),
+  standardPayslip({
+    id: '8050',
+    month: 'January',
+    year: 2024,
+    paidDays: 31,
+    startDate: '01-Jan-2024',
+    endDate: '31-Jan-2024',
+    processedDate: '28-Jan-2024',
+  }),
+  standardPayslip({
+    id: '7960',
+    month: 'December',
+    year: 2023,
+    paidDays: 31,
+    startDate: '01-Dec-2023',
+    endDate: '31-Dec-2023',
+    processedDate: '27-Dec-2023',
+  }),
+  standardPayslip({
+    id: '7880',
+    month: 'November',
+    year: 2023,
+    paidDays: 30,
+    startDate: '01-Nov-2023',
+    endDate: '30-Nov-2023',
+    processedDate: '27-Nov-2023',
+  }),
 ];
 
 export const mockLeaveEmployee: LeaveEmployee = {

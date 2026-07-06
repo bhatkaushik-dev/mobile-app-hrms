@@ -16,6 +16,10 @@ export interface User {
 export interface AuthSession {
   token: string;
   user: User;
+  /** Epoch ms when the token expires (from the backend's expiryDuration). */
+  expiresAt?: number;
+  /** The raw backend user object, kept for fields the app doesn't model yet. */
+  raw?: Record<string, any>;
 }
 
 export interface PersonalDetails {
@@ -338,12 +342,34 @@ export interface EmployeeProfile {
   careerPlan: CareerPlan;
 }
 
+/**
+ * One row of a payslip's Earnings or Deductions table.
+ * `earnRate` is the full monthly rate; `amount` is what was actually
+ * earned/deducted for the period (they differ on pro-rated lines).
+ */
+export interface PayslipLine {
+  description: string; // e.g. "Basic (Annual Leave: 09/06/2024-30/06/2024)"
+  earnRate: number;
+  amount: number;
+}
+
+/** A processed monthly payslip, mirroring the web "Pay slip" panel. */
 export interface Payslip {
-  id: string;
-  month: string; // e.g. "May 2026"
-  grossPay: number;
+  id: string; // payslip number, e.g. "8459"
+  month: string; // "June"
+  year: number; // 2024
+  salaryMonth: string; // "June, 2024"
+  startDate: string; // "01-Jun-2024"
+  endDate: string; // "30-Jun-2024"
+  processedDate: string; // "27-Jun-2024"
+  processedNo: string; // "8459"
+  paidDays: number; // 30
+  earnings: PayslipLine[];
+  deductions: PayslipLine[];
+  totalEarnings: number;
+  totalDeductions: number;
   netPay: number;
-  deductions: number;
+  netPayWords: string; // "Rial Omani Two Thousand One Hundred Fifty Only"
   status: 'Paid' | 'Processing';
 }
 

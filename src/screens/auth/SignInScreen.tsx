@@ -9,32 +9,38 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button, TextField } from '../../components';
-import { useAuth } from '../../context/AuthContext';
+import { useSignIn } from '../../api/auth';
+import { loginSchema, type LoginErrors } from '../../utils/validators/login.schema';
 
 export function SignInScreen() {
   const insets = useSafeAreaInsets();
-  const { signIn } = useAuth();
+  const { signIn, isLoading, error: apiError } = useSignIn();
 
-  const [userId, setUserId] = useState('admin');
+  const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<LoginErrors>({});
+
+  const loading = isLoading;
 
   const onSubmit = async () => {
-    setError(null);
-    if (!userId.trim() || !password) {
-      setError('Please enter your User ID and password.');
+    // Validate with zod; surface per-field messages if it fails.
+    const result = loginSchema.safeParse({ userId, password, remember });
+    if (!result.success) {
+      const errors: LoginErrors = {};
+      for (const issue of result.error.issues) {
+        const key = issue.path[0] as keyof LoginErrors;
+        if (key && !errors[key]) errors[key] = issue.message;
+      }
+      setFieldErrors(errors);
       return;
     }
-    setLoading(true);
+    setFieldErrors({});
     try {
-      await signIn(userId, password, remember);
+      await signIn(result.data.userId, result.data.password, result.data.remember);
       // On success the RootNavigator swaps to the app flow automatically.
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Sign in failed.');
-    } finally {
-      setLoading(false);
+    } catch {
+      // `useSignIn` already surfaces the message via `apiError`.
     }
   };
 
@@ -76,27 +82,39 @@ export function SignInScreen() {
               <TextField
                 label="User ID"
                 value={userId}
-                onChangeText={setUserId}
+                onChangeText={text => {
+                  setUserId(text);
+                  if (fieldErrors.userId) {
+                    setFieldErrors(prev => ({ ...prev, userId: undefined }));
+                  }
+                }}
                 autoCapitalize="none"
                 autoCorrect={false}
                 placeholder="Enter your User ID"
                 returnKeyType="next"
+                error={fieldErrors.userId}
               />
 
               <TextField
                 label="Password"
                 containerClassName="mt-5"
                 value={password}
-                onChangeText={setPassword}
+                onChangeText={text => {
+                  setPassword(text);
+                  if (fieldErrors.password) {
+                    setFieldErrors(prev => ({ ...prev, password: undefined }));
+                  }
+                }}
                 secure
                 placeholder="Enter your password"
                 returnKeyType="go"
                 onSubmitEditing={onSubmit}
+                error={fieldErrors.password}
               />
 
-              {error ? (
+              {apiError ? (
                 <View className="mt-4 rounded-xl bg-red-50 px-4 py-3">
-                  <Text className="text-sm font-medium text-danger">{error}</Text>
+                  <Text className="text-sm font-medium text-danger">{apiError}</Text>
                 </View>
               ) : null}
 
@@ -133,10 +151,6 @@ export function SignInScreen() {
                 onPress={onSubmit}
                 trailing={<Text className="text-base font-semibold text-white">→</Text>}
               />
-
-              <Text className="mt-4 text-center text-xs text-ink-faint">
-                Demo login — User ID: admin · Password: password
-              </Text>
             </View>
 
             <View className="flex-1" />

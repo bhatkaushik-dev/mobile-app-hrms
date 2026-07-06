@@ -16,6 +16,10 @@ export interface User {
 export interface AuthSession {
   token: string;
   user: User;
+  /** Epoch ms when the token expires (from the backend's expiryDuration). */
+  expiresAt?: number;
+  /** The raw backend user object, kept for fields the app doesn't model yet. */
+  raw?: Record<string, any>;
 }
 
 export interface PersonalDetails {

@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Button, TextField } from '../../components';
+import { AppIcon, Button, HeroBackground, TextField } from '../../components';
 import { useSignIn } from '../../api/auth';
 import { loginSchema, type LoginErrors } from '../../utils/validators/login.schema';
 
@@ -55,18 +55,22 @@ export function SignInScreen() {
           showsVerticalScrollIndicator={false}>
           {/* Brand hero */}
           <View
-            className="bg-brand-600 px-6 pb-12"
-            style={{ paddingTop: insets.top + 24 }}>
+            className="shrink-0 overflow-hidden"
+            style={{
+              paddingTop: insets.top + 24,
+              paddingBottom: 40,
+              height: insets.top + 244,
+            }}>
+            <HeroBackground />
             <View className="flex-row items-center">
-              <Text className="text-2xl font-extrabold text-white">Tech</Text>
-              <Text className="text-2xl font-extrabold text-accent-500">Nova</Text>
+              <AppIcon width={120} height={58} />
             </View>
-            <Text className="mt-8 text-3xl font-extrabold leading-9 text-white">
+            <Text className="mt-5 text-3xl font-extrabold leading-9 text-white">
               Welcome to{'\n'}Employee Portal
             </Text>
-            <Text className="mt-2 text-base text-white/80">
+            {/* <Text className="mt-2 text-base text-white/80">
               Everything you need, in one place.
-            </Text>
+            </Text> */}
           </View>
 
           {/* Sign-in card overlapping the hero */}

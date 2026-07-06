@@ -1,7 +1,36 @@
 import React, { useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import type { TextInputProps } from 'react-native';
+import Svg, { Circle, Line, Path } from 'react-native-svg';
 import { colors } from '../theme/colors';
+
+/** Eye — password visible. Eye-off (with a strike) — password hidden. */
+function EyeIcon({ off }: { off: boolean }) {
+  const color = colors.inkMuted;
+  return (
+    <Svg width={20} height={20} viewBox="0 0 24 24" fill="none">
+      <Path
+        d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"
+        stroke={color}
+        strokeWidth={1.8}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Circle cx={12} cy={12} r={3} stroke={color} strokeWidth={1.8} />
+      {off ? (
+        <Line
+          x1={3}
+          y1={3}
+          x2={21}
+          y2={21}
+          stroke={color}
+          strokeWidth={1.8}
+          strokeLinecap="round"
+        />
+      ) : null}
+    </Svg>
+  );
+}
 
 interface TextFieldProps extends Omit<TextInputProps, 'className'> {
   label: string;
@@ -46,7 +75,7 @@ export function TextField({
             accessibilityRole="button"
             accessibilityLabel={hidden ? 'Show password' : 'Hide password'}
             onPress={() => setHidden(h => !h)}>
-            <Text className="text-lg text-ink-muted">{hidden ? '🙈' : '👁️'}</Text>
+            <EyeIcon off={hidden} />
           </Pressable>
         ) : null}
       </View>

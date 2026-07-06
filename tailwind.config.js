@@ -6,14 +6,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Brand palette — blue, matching the Tech Nova web portal accents.
+        // Brand palette — teal-cyan, matching the Tech Nova app theme.
         brand: {
-          DEFAULT: '#2563EB',
-          50: '#EFF6FF',
-          100: '#DBEAFE',
-          500: '#3B82F6',
-          600: '#2563EB',
-          700: '#1D4ED8',
+          DEFAULT: '#309CDC',
+          50: '#E6F8FB',
+          100: '#CCF1F8',
+          500: '#309CDC',
+          600: '#309CDC',
+          700: '#1F7BA0',
         },
         accent: {
           DEFAULT: '#38BDF8',
@@ -33,7 +33,7 @@ module.exports = {
         success: '#16A34A',
         warning: '#D97706',
         danger: '#DC2626',
-        info: '#2563EB',
+        info: '#309CDC',
       },
       borderRadius: {
         xl: '16px',

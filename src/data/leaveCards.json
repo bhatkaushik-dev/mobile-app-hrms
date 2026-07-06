@@ -57,8 +57,8 @@
     "id": "mourning",
     "title": "Mourning - Family Member",
     "icon": "😔",
-    "iconColor": "#2563EB",
-    "iconBgColor": "#DBEAFE",
+    "iconColor": "#309CDC",
+    "iconBgColor": "#CCF1F8",
     "info": [
       { "label": "Entitlement", "value": "365 days" },
       { "label": "Frequency", "value": "Yearly" },

@@ -16,7 +16,7 @@ import { RootNavigator } from './src/navigation/RootNavigator';
 function App() {
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle="light-content" backgroundColor="#1D4ED8" />
+      <StatusBar barStyle="light-content" backgroundColor="#1F7BA0" />
       <QueryProvider>
         <AuthProvider>
           <RootNavigator />

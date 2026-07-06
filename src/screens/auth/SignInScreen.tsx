@@ -62,10 +62,10 @@ export function SignInScreen() {
               height: insets.top + 244,
             }}>
             <HeroBackground />
-            <View className="flex-row items-center">
+            <View className="flex-row items-center px-6">
               <AppIcon width={120} height={58} />
             </View>
-            <Text className="mt-5 text-3xl font-extrabold leading-9 text-white">
+            <Text className="mt-5 px-6 text-3xl font-extrabold leading-9 text-white">
               Welcome to{'\n'}Employee Portal
             </Text>
             {/* <Text className="mt-2 text-base text-white/80">

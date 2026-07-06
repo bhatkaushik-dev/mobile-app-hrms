@@ -97,7 +97,7 @@ export function ReferBackIcon({ size = 20, color = '#D97706' }: IconProps) {
 }
 
 /** View — eye outline with pupil. */
-export function ViewIcon({ size = 20, color = '#2563EB' }: IconProps) {
+export function ViewIcon({ size = 20, color = '#309CDC' }: IconProps) {
   const w = sw(size);
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">

@@ -6,8 +6,8 @@
  * such as StatusBar barStyle, gradient color stops, or icon `color` props.
  */
 export const colors = {
-  brand: '#2563EB',
-  brandDark: '#1D4ED8',
+  brand: '#309CDC',
+  brandDark: '#1F7BA0',
   accent: '#38BDF8',
   ink: '#1A1A2E',
   inkMuted: '#6B7280',
@@ -18,10 +18,10 @@ export const colors = {
   success: '#16A34A',
   warning: '#D97706',
   danger: '#DC2626',
-  info: '#2563EB',
+  info: '#309CDC',
 } as const;
 
-/** Color stops for the sign-in hero gradient (deep → bright blue). */
-export const heroGradient = ['#1D4ED8', '#2563EB', '#3B82F6'] as const;
+/** Color stops for the sign-in hero gradient (deep → bright teal). */
+export const heroGradient = ['#1F7BA0', '#309CDC', '#3BB5D5'] as const;
 
 export type ColorToken = keyof typeof colors;

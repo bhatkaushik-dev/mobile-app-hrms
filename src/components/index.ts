@@ -1,4 +1,5 @@
 export { AppIcon } from './icons/AppIcon';
+export { GradientFill } from './icons/GradientFill';
 export { HeroBackground } from './icons/HeroBackground';
 export { Avatar } from './Avatar';
 export { Badge } from './Badge';

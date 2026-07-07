@@ -1,20 +1,41 @@
-import React from 'react';
-import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import {
+  Alert,
+  Dimensions,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Avatar, Card, SectionHeader } from '../../components';
+import { AppIcon, Avatar, GradientFill } from '../../components';
 import { useAuth } from '../../context/AuthContext';
 import { useAppNavigation } from '../../navigation/hooks';
-import { menuSections, upcomingModules, type MenuItem } from './menu';
+import {
+  dashboardBanners,
+  dashboardTiles,
+  TILE_TINT_BG,
+  type DashboardBanner,
+  type MenuItem,
+} from './menu';
 
-function greeting(): string {
-  // Static buckets keep it deterministic; swap for real time-of-day if desired.
-  return 'Welcome back';
-}
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const H_PADDING = 16;
+const BANNER_WIDTH = SCREEN_WIDTH - H_PADDING * 2;
+
+// function greeting(): string {
+//   // Static bucket keeps it deterministic; swap for real time-of-day if desired.
+//   return 'Welcome back';
+// }
 
 export function DashboardScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useAppNavigation();
   const { user, signOut } = useAuth();
+  const [bannerIndex, setBannerIndex] = useState(0);
+  const bannerRef = useRef<ScrollView>(null);
 
   const onItemPress = (item: MenuItem) => {
     if (item.soon || !item.route) {
@@ -24,90 +45,166 @@ export function DashboardScreen() {
     navigation.navigate(item.route);
   };
 
-  const confirmSignOut = () => {
-    Alert.alert('Sign out', 'Are you sure you want to sign out?', [
-      { text: 'Cancel', style: 'cancel' },
+  const onBannerPress = (banner: DashboardBanner) => {
+    if (banner.route) navigation.navigate(banner.route);
+  };
+
+  const onBannerScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const idx = Math.round(e.nativeEvent.contentOffset.x / (BANNER_WIDTH + 12));
+    if (idx !== bannerIndex) setBannerIndex(idx);
+  };
+
+  const openAccountMenu = () => {
+    Alert.alert(user?.name ?? 'Account', user?.email ?? '', [
+      {
+        text: 'Personal Details',
+        onPress: () => navigation.navigate('PersonalDetails'),
+      },
       { text: 'Sign out', style: 'destructive', onPress: () => signOut() },
+      { text: 'Cancel', style: 'cancel' },
     ]);
   };
 
   return (
     <View className="flex-1 bg-surface-muted">
-      {/* Brand header */}
-      <View
-        className="rounded-b-3xl bg-brand-600 px-5 pb-6"
-        style={{ paddingTop: insets.top + 16 }}>
-        <View className="flex-row items-center justify-between">
-          <View className="flex-row items-center">
-            <Avatar name={user?.name ?? 'User'} size={48} />
-            <View className="ml-3">
-              <Text className="text-sm text-white/80">{greeting()},</Text>
-              <Text className="text-lg font-bold text-white">
-                {user?.name ?? 'User'}
-              </Text>
-            </View>
-          </View>
+      {/* Airy brand header — light gradient with logo centered. */}
+      <View className="overflow-hidden rounded-b-3xl" style={{ paddingTop: insets.top + 12 }}>
+        <GradientFill id="dash-header" colors={['#E6F8FB', '#F5FBFE', '#FFFFFF']} />
+        <View className="flex-row items-center justify-between px-5 pb-4">
           <Pressable
+            onPress={openAccountMenu}
             hitSlop={8}
-            onPress={confirmSignOut}
             accessibilityRole="button"
-            accessibilityLabel="Sign out"
-            className="h-10 w-10 items-center justify-center rounded-full bg-white/15">
-            <Text className="text-base">⏻</Text>
+            accessibilityLabel="Open account menu"
+            className="h-11 w-11 items-center justify-center rounded-full bg-white active:opacity-80"
+            style={cardShadow}>
+            <View className="gap-1">
+              <View className="h-0.5 w-5 rounded-full bg-brand-700" />
+              <View className="h-0.5 w-5 rounded-full bg-brand-700" />
+              <View className="h-0.5 w-3.5 rounded-full bg-brand-700" />
+            </View>
+          </Pressable>
+
+          <AppIcon width={96} height={46} />
+
+          <Pressable
+            onPress={() => Alert.alert('Support', 'Help & support is coming soon.')}
+            hitSlop={8}
+            accessibilityRole="button"
+            accessibilityLabel="Support"
+            className="h-11 w-11 items-center justify-center rounded-full bg-white active:opacity-80"
+            style={cardShadow}>
+            <Text className="text-lg">🎧</Text>
           </Pressable>
         </View>
-        <Text className="mt-1 text-xs text-white/70">
-          {user?.designation} · {user?.department}
-        </Text>
       </View>
 
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: insets.bottom + 24 }}>
-        <View className="px-4 pt-5">
-          {menuSections.map(section => (
-            <View key={section.title} className="mb-6">
-              <SectionHeader title={section.title} />
-              <View className="gap-3">
-                {section.items.map(item => (
-                  <Card key={item.key} onPress={() => onItemPress(item)}>
-                    <View className="flex-row items-center">
-                      <View className="h-11 w-11 items-center justify-center rounded-xl bg-brand-50">
-                        <Text className="text-xl">{item.icon}</Text>
-                      </View>
-                      <View className="ml-3 flex-1">
-                        <Text className="text-base font-semibold text-ink">
-                          {item.label}
-                        </Text>
-                        <Text className="text-sm text-ink-muted">
-                          {item.description}
-                        </Text>
-                      </View>
-                      <Text className="text-xl text-ink-faint">›</Text>
-                    </View>
-                  </Card>
-                ))}
-              </View>
-            </View>
-          ))}
-
-          {/* Breadth of the portal — visual parity with the web sidebar. */}
-          <SectionHeader title="More Modules" />
-          <View className="flex-row flex-wrap justify-between">
-            {upcomingModules.map(item => (
-              <Pressable
-                key={item.key}
-                onPress={() => onItemPress(item)}
-                className="mb-3 w-[31%] items-center rounded-2xl border border-surface-border bg-white py-4 active:bg-surface-muted">
-                <Text className="text-2xl">{item.icon}</Text>
-                <Text className="mt-2 px-1 text-center text-xs font-medium text-ink">
-                  {item.label}
-                </Text>
-              </Pressable>
-            ))}
+        {/* Greeting */}
+        {/* <View className="flex-row items-center px-5 pt-4">
+          <Avatar name={user?.name ?? 'User'} size={44} />
+          <View className="ml-3 flex-1">
+            <Text className="text-xs text-ink-muted">{greeting()},</Text>
+            <Text className="text-lg font-bold text-ink" numberOfLines={1}>
+              {user?.name ?? 'User'}
+            </Text>
           </View>
+          {!!user?.designation && (
+            <Text className="max-w-[40%] text-right text-xs text-ink-faint" numberOfLines={2}>
+              {user.designation}
+            </Text>
+          )}
+        </View> */}
+
+        {/* Promo carousel */}
+        <ScrollView
+          ref={bannerRef}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          decelerationRate="fast"
+          snapToInterval={BANNER_WIDTH + 12}
+          snapToAlignment="start"
+          disableIntervalMomentum
+          onMomentumScrollEnd={onBannerScroll}
+          contentContainerStyle={{ paddingHorizontal: H_PADDING, paddingTop: 16 }}>
+          {dashboardBanners.map((banner, i) => (
+            <Pressable
+              key={banner.key}
+              onPress={() => onBannerPress(banner)}
+              accessibilityRole="button"
+              accessibilityLabel={banner.title}
+              className="overflow-hidden rounded-3xl active:opacity-90"
+              style={{
+                width: BANNER_WIDTH,
+                marginRight: i === dashboardBanners.length - 1 ? 0 : 12,
+              }}>
+              <GradientFill id={`banner-${banner.key}`} colors={banner.gradient} direction="diagonal" />
+              <View className="flex-row items-center justify-between p-5" style={{ minHeight: 116 }}>
+                <View className="flex-1 pr-3">
+                  <Text className="text-lg font-extrabold text-white" numberOfLines={1}>
+                    {banner.title}
+                  </Text>
+                  <Text className="mt-1 text-sm text-white/85" numberOfLines={2}>
+                    {banner.subtitle}
+                  </Text>
+                </View>
+                <View className="h-14 w-14 items-center justify-center rounded-2xl bg-white/20">
+                  <Text className="text-3xl">{banner.icon}</Text>
+                </View>
+              </View>
+            </Pressable>
+          ))}
+        </ScrollView>
+
+        {/* Pagination dots */}
+        <View className="mt-3 flex-row items-center justify-center gap-1.5">
+          {dashboardBanners.map((banner, i) => (
+            <View
+              key={banner.key}
+              className={
+                i === bannerIndex
+                  ? 'h-1.5 w-5 rounded-full bg-brand-600'
+                  : 'h-1.5 w-1.5 rounded-full bg-surface-border'
+              }
+            />
+          ))}
+        </View>
+
+        {/* Home grid — colorful tiles, 4 across. */}
+        <View className="mt-6 flex-row flex-wrap px-3">
+          {dashboardTiles.map(item => (
+            <Pressable
+              key={item.key}
+              onPress={() => onItemPress(item)}
+              accessibilityRole="button"
+              accessibilityLabel={item.label}
+              className="mb-5 items-center px-1 active:opacity-70"
+              style={{ width: '25%' }}>
+              <View
+                className={`h-16 w-16 items-center justify-center rounded-2xl ${TILE_TINT_BG[item.tint]}`}
+                style={cardShadow}>
+                <Text className="text-2xl">{item.icon}</Text>
+              </View>
+              <Text
+                className="mt-2 text-center text-[11px] font-medium leading-tight text-ink"
+                numberOfLines={2}>
+                {item.label}
+              </Text>
+            </Pressable>
+          ))}
         </View>
       </ScrollView>
     </View>
   );
 }
+
+/** Soft elevation shared by the header buttons and grid tiles. */
+const cardShadow = {
+  shadowColor: '#1A1A2E',
+  shadowOpacity: 0.08,
+  shadowOffset: { width: 0, height: 4 },
+  shadowRadius: 8,
+  elevation: 2,
+};
